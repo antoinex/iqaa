@@ -58,7 +58,6 @@ std::vector<std::vector<int> > flood_fill(
 
 void flood_fill_helper(
 	std::vector<std::vector<int> > & image,
-	std::vector<std::vector<bool> > & visited,
 	int row_index,
 	int col_index,
 	int new_color);
@@ -104,13 +103,9 @@ std::vector<std::vector<int> > flood_fill(
 	int sc,
 	int new_color)
 {
-	if (!image.empty())
+	if (!image.empty() && image[sr][sc] != new_color)
 	{
-		std::vector<std::vector<bool> > visited(
-			image.size(),
-			std::vector<bool>(image[0].size(), false));
-
-		flood_fill_helper(image, visited, sr, sc, new_color);
+		flood_fill_helper(image, sr, sc, new_color);
 	}
 
 	return image;
@@ -118,7 +113,6 @@ std::vector<std::vector<int> > flood_fill(
 
 void flood_fill_helper(
 	std::vector<std::vector<int> > & image,
-	std::vector<std::vector<bool> > & visited,
 	int row_index,
 	int col_index,
 	int new_color)
@@ -126,30 +120,29 @@ void flood_fill_helper(
 	int old_color = image[row_index][col_index];
         
         image[row_index][col_index] = new_color;
-	visited[row_index][col_index] = true;
 
         // Go north, if possible.
-        if (row_index - 1 >= 0 && !visited[row_index - 1][col_index] && image[row_index - 1][col_index] == old_color)
+        if (row_index - 1 >= 0 && image[row_index - 1][col_index] == old_color)
         {
-            flood_fill_helper(image, visited, row_index - 1, col_index, new_color);
+            flood_fill_helper(image, row_index - 1, col_index, new_color);
         }
         
         // Go east, if possible.
-        if (col_index + 1 < image[row_index].size() && !visited[row_index][col_index + 1] && image[row_index][col_index + 1] == old_color)
+        if (col_index + 1 < image[row_index].size() && image[row_index][col_index + 1] == old_color)
         {
-            flood_fill_helper(image, visited, row_index, col_index + 1, new_color);
+            flood_fill_helper(image, row_index, col_index + 1, new_color);
         }
         
         // Go south, if possible.
-        if (row_index + 1 < image.size() && !visited[row_index + 1][col_index] && image[row_index + 1][col_index] == old_color)
+        if (row_index + 1 < image.size() && image[row_index + 1][col_index] == old_color)
         {
-            flood_fill_helper(image, visited, row_index + 1, col_index, new_color);
+            flood_fill_helper(image, row_index + 1, col_index, new_color);
         }
         
         // Go west, if possible.
-        if (col_index - 1 >= 0 && !visited[row_index][col_index - 1] && image[row_index][col_index - 1] == old_color)
+        if (col_index - 1 >= 0 && image[row_index][col_index - 1] == old_color)
         {
-            flood_fill_helper(image, visited, row_index, col_index - 1, new_color);
+            flood_fill_helper(image, row_index, col_index - 1, new_color);
         }
 }
 
