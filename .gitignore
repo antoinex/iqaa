@@ -1,0 +1,11 @@
+# Ignore OS generated files recursively from this directory
+# =========================================================
+**.DS_Store
+
+# Ignore vim swap files
+# =====================
+**.swp
+
+# Ignore build output files
+# =========================
+**.o
